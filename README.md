@@ -1,15 +1,4 @@
 # Goscan is a golang version fast port scanner
-
-    ________        _________                       ._. ._.
-   /  _____/  ____ /   _____/ ____ _____    ____    | | | |
-  /   \  ___ /  _ \\_____  \_/ ___\\__  \  /    \   | | | |
-  \    \_\  (  <_> )        \  \___ / __ \|   |  \   \|  \|
-   \______  /\____/_______  /\___  >____  /___|  /   __  __
-          \/              \/     \/     \/     \/    \/  \/
-  
-                                             by  F4l13n5n0w
-                                             version: 0.0.1
-
 ## It can be used in Red Teaming for low priv windows user without install nmap
 
 ## Guide, help manual
