@@ -96,7 +96,7 @@ func serviceprobe(port int) string {
 }
 
 func printLogo() {
-	const version = "0.0.1"
+	const version = "0.0.2"
 	const logo = `
     ________        _________                       ._. ._.
    /  _____/  ____ /   _____/ ____ _____    ____    | | | |
