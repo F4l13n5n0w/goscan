@@ -1,0 +1,4 @@
+scanme.nmap.org
+www.github.com
+www.google.com
+127.0.0.1

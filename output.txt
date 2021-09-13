@@ -1,0 +1,38 @@
+[38;5;72m
+    ________        _________                       ._. ._.
+   /  _____/  ____ /   _____/ ____ _____    ____    | | | |
+  /   \  ___ /  _ \\_____  \_/ ___\\__  \  /    \   | | | |
+  \    \_\  (  <_> )        \  \___ / __ \|   |  \   \|  \|
+   \______  /\____/_______  /\___  >____  /___|  /   __  __
+          \/              \/     \/     \/     \/    \/  \/
+  [0m
+[38;5;38m                                             by  F4l13n5n0w
+[0m[38;5;38m                                             version: 0.0.1
+[0m
+
+[+] scan scanme.nmap.org
+[+] Threads: 100
+[+] total scan 4 ports
+ports     status    service
+31337     open      
+22        open      SSH-2.0-OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.13
+
+
+[+] scan www.github.com
+[+] Threads: 100
+[+] total scan 4 ports
+ports     status    service
+22        open      
+
+
+[+] scan www.google.com
+[+] Threads: 100
+[+] total scan 4 ports
+ports     status    service
+
+
+[+] scan 127.0.0.1
+[+] Threads: 100
+[+] total scan 4 ports
+ports     status    service
+22        open      SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.2
