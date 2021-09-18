@@ -30,3 +30,13 @@ Usage of ./goscan:
   -thread int
         set thread number, make sure not too high (default 100)
 root@vscode-server001:~/codes/goscan# ```
+
+
+Generate top-x ports from nmap-services file:
+```/* Command to generate top-x ports from nmap-services file:
+   sort -r -k3 /usr/share/nmap/nmap-services | grep tcp | head -n 100 | cut -f 2 | cut -d '/' -f 1 | sed -n 'H;${x;s/\n/,/g;s/^,//;p;}'
+
+   ┌──(root💀kali)-[/usr/share/nmap]
+   └─# sort -r -k3 /usr/share/nmap/nmap-services | grep tcp | head -n 10 | cut -f 2 | cut -d '/' -f 1 | sed -n 'H;${x;s/\n/,/g;s/^,//;p;}'
+   80,23,443,21,22,25,3389,110,445,139
+*/```
