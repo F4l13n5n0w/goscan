@@ -7,32 +7,39 @@
           \/              \/     \/     \/     \/    \/  \/
   [0m
 [38;5;38m                                             by  F4l13n5n0w
-[0m[38;5;38m                                             version: 0.0.1
+[0m[38;5;38m                                             version: 0.0.2
 [0m
 
 [+] scan scanme.nmap.org
-[+] Threads: 100
-[+] total scan 4 ports
-ports     status    service
-31337     open      
-22        open      SSH-2.0-OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.13
+[+] Threads: 200
+[+] total scan 100 ports
+ports     status    service   extrainfo
+22        open      ssh       SSH-2.0-OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.13
+80        open      http      HTTP/1.1 400 Bad Request
 
 
 [+] scan www.github.com
-[+] Threads: 100
-[+] total scan 4 ports
-ports     status    service
-22        open      
+[+] Threads: 200
+[+] total scan 100 ports
+ports     status    service   extrainfo
+443       open      https     
+22        open      ssh       
+80        open      http      
 
 
 [+] scan www.google.com
-[+] Threads: 100
-[+] total scan 4 ports
-ports     status    service
+[+] Threads: 200
+[+] total scan 100 ports
+ports     status    service   extrainfo
+443       open      https     
+80        open      http      
 
 
 [+] scan 127.0.0.1
-[+] Threads: 100
-[+] total scan 4 ports
-ports     status    service
-22        open      SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.2
+[+] Threads: 200
+[+] total scan 100 ports
+ports     status    service   extrainfo
+443       open      https     
+80        open      http      HTTP/1.1 400 Bad Request
+8080      open      http-proxy
+22        open      ssh       SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.2

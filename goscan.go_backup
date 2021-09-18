@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -33,9 +32,6 @@ var globalTCPReaderTimeout int = 5
 var globalThread int = 100
 var globalAddr = "127.0.0.1"
 
-var nmapServicesFilename = "nmap-services.csv"
-var nmapTCPTable = []string{}
-
 func worker(ports, results chan int) {
 	for p := range ports {
 		address := fmt.Sprintf("%s:%d", globalAddr, p)
@@ -54,7 +50,7 @@ func portscan(scanports []int) {
 	log.Println("[+] Start port scan...")
 	fmt.Printf("[+] Threads: %d\n", globalThread)
 	fmt.Printf("[+] total scan %d ports\n", len(scanports))
-	fmt.Printf("%-10v%-10v%-20v%s\n", "ports", "status", "service", "extrainfo")
+	fmt.Printf("%-10v%-10v%s\n", "ports", "status", "service")
 	ports := make(chan int, globalThread)
 	results := make(chan int)
 
@@ -72,41 +68,13 @@ func portscan(scanports []int) {
 		port := <-results
 		if port != 0 {
 			extraInfo := strings.TrimSuffix(serviceprobe(port), "\n")
-			nmapTCPDefault := portServiceMap(port)
-			fmt.Printf("%-10v%-10v%-20v%s\n", port, "open", nmapTCPDefault, extraInfo)
+			fmt.Printf("%-10v%-10v%s\n", port, "open", extraInfo)
 		}
 	}
 
 	close(ports)
 	close(results)
 	log.Println("[+] Finished\n\n")
-}
-
-func loadNMAPServicesTable() {
-	fi := "nmap-services_tcp.csv"
-
-	fileBytes, err := ioutil.ReadFile(fi)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	nmapTCPTable = strings.Split(string(fileBytes), "\n")
-}
-
-func portServiceMap(port int) string {
-
-	key := strconv.Itoa(port) + "/tcp"
-	nmapService := ""
-
-	for i := 0; i < len(nmapTCPTable); i++ {
-		split := strings.Fields(nmapTCPTable[i])
-		if key == split[1] {
-			nmapService = split[0]
-			break
-		}
-	}
-
-	return nmapService
 }
 
 func serviceprobe(port int) string {
@@ -153,7 +121,7 @@ func main() {
 	var singleIP string
 	flag.StringVar(&singleIP, "ip", "", "target IP address")
 	var portsRange string
-	flag.StringVar(&portsRange, "p", "", "ports range, split by ',' or use '-p -' to scan full 65535 ports, support keywords 'top10' and 'top100'. (default is top1k)")
+	flag.StringVar(&portsRange, "p", "", "ports range, split by ',' or use '-p -' to scan full 65535 ports. (default is top1k)")
 	var nTimeout = flag.Int("st", 5, "TCP scan connection timeout (seconds)")
 	var nTCPReaderTimeout = flag.Int("rt", 5, "TCP message reader timeout (seconds), this is for service detection")
 	var nThreads = flag.Int("thread", 100, "set thread number, make sure not too high")
@@ -166,19 +134,14 @@ func main() {
 
 	scanports := []int{}
 
-	loadNMAPServicesTable()
-
 	if portsRange != "" {
-		switch portsRange {
-		case "-":
+		if portsRange == "-" {
+			//fmt.Println("scan full range of ports!")
+			golbalfullports = true
 			for i := 1; i <= 65535; i++ {
 				scanports = append(scanports, i)
 			}
-		case "top10":
-			scanports = top10ports[0:]
-		case "top100":
-			scanports = top100ports[0:]
-		default:
+		} else {
 			tmp := strings.Split(portsRange, ",")
 			for _, p := range tmp {
 				port, _ := strconv.Atoi(p)
@@ -186,17 +149,22 @@ func main() {
 			}
 		}
 	} else {
+		fmt.Println("no -p received, will use default top1k ports")
 		scanports = top1kports[0:]
 	}
 
-	if singleIP != "" {
+	if singleIP == "" {
+		//fmt.Println("not -ip received, should use -iL to specify a list of targets")
+	} else {
 		globalAddr = singleIP
 		fmt.Printf("\n\n[+] scan %s\n", singleIP)
 		portscan(scanports)
 		return
 	}
 
-	if *targetFile != "" {
+	if *targetFile == "" {
+		//fmt.Println("not -iL")
+	} else {
 		ipRange := []string{""}
 
 		file, err := os.Open(*targetFile)
